@@ -13,7 +13,7 @@
     }
 
     body {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
+      background: linear-gradient(145deg, #0b1120 0%, #1a2332 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -22,34 +22,47 @@
     }
 
     .container {
-      background: #1e293b;
-      border-radius: 20px;
-      padding: 32px 28px;
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 36px 32px;
       width: 100%;
-      max-width: 560px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      border: 1px solid #334155;
+      max-width: 580px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.6);
     }
 
     h1 {
       color: #f8fafc;
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 700;
       text-align: center;
-      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    h1 span {
+      color: #3b82f6;
     }
 
     .subtitle {
-      color: #94a3b8;
+      color: #64748b;
       text-align: center;
       font-size: 14px;
+      margin-top: 4px;
       margin-bottom: 28px;
+    }
+
+    .form-card {
+      background: #0f172a;
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid #1e293b;
+      margin-bottom: 20px;
     }
 
     .form-row {
       display: flex;
       gap: 10px;
-      margin-bottom: 16px;
       flex-wrap: wrap;
     }
 
@@ -61,11 +74,11 @@
 
     .form-group label {
       display: block;
-      color: #94a3b8;
+      color: #64748b;
       font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
       margin-bottom: 5px;
     }
 
@@ -87,17 +100,18 @@
     input {
       width: 100%;
       padding: 10px 12px;
-      border: 1px solid #334155;
+      border: 1.5px solid #1e293b;
       border-radius: 10px;
-      background: #0f172a;
+      background: #0b1120;
       color: #f1f5f9;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.25s, box-shadow 0.25s;
     }
 
     input:focus {
       border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
 
     input[type="month"] {
@@ -111,58 +125,94 @@
 
     .suggestion-box {
       position: absolute;
-      top: 100%;
+      top: calc(100% + 2px);
       left: 0;
       right: 0;
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-top: none;
-      border-radius: 0 0 10px 10px;
+      background: #0b1120;
+      border: 1.5px solid #3b82f6;
+      border-radius: 10px;
       z-index: 10;
-      max-height: 185px;
+      max-height: 192px;
       overflow-y: auto;
       display: none;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
       scrollbar-width: thin;
-      scrollbar-color: #334155 transparent;
+      scrollbar-color: #1e293b transparent;
     }
 
     .suggestion-box.active {
       display: block;
+      animation: dropIn 0.15s ease-out;
+    }
+
+    @keyframes dropIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .suggestion-box::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .suggestion-box::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 10px;
     }
 
     .suggestion-item {
       padding: 9px 14px;
-      color: #cbd5e1;
+      color: #94a3b8;
       font-size: 13px;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .suggestion-item:first-child {
+      border-radius: 9px 9px 0 0;
+    }
+
+    .suggestion-item:last-child {
+      border-radius: 0 0 9px 9px;
     }
 
     .suggestion-item:hover {
-      background: #1e293b;
+      background: rgba(59, 130, 246, 0.1);
       color: #f1f5f9;
     }
 
-    button {
+    .add-btn {
       width: 100%;
-      padding: 11px;
-      background: #3b82f6;
+      padding: 12px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      margin-bottom: 20px;
+      transition: transform 0.15s, box-shadow 0.2s;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
-    button:hover {
-      background: #2563eb;
+    .add-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
     }
 
-    button:active {
-      transform: scale(0.98);
+    .add-btn:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
     }
 
     .section-label {
@@ -171,24 +221,33 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 10px;
+    }
+
+    .expense-count {
+      color: #475569;
+      font-size: 12px;
+      font-weight: 600;
+      background: #0f172a;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid #1e293b;
     }
 
     .expense-list {
       list-style: none;
-      max-height: 260px;
+      max-height: 300px;
       overflow-y: auto;
       margin-bottom: 14px;
       scrollbar-width: thin;
-      scrollbar-color: #334155 transparent;
+      scrollbar-color: #1e293b transparent;
     }
 
     .expense-list::-webkit-scrollbar {
-      width: 5px;
+      width: 4px;
     }
 
     .expense-list::-webkit-scrollbar-thumb {
-      background: #334155;
+      background: #1e293b;
       border-radius: 10px;
     }
 
@@ -196,16 +255,37 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 12px;
+      padding: 11px 14px;
       background: #0f172a;
-      border-radius: 10px;
+      border-radius: 12px;
       margin-bottom: 6px;
       border: 1px solid #1e293b;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, transform 0.15s;
+      animation: slideIn 0.25s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .expense-item:hover {
       border-color: #334155;
+    }
+
+    .expense-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .expense-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
     }
 
     .expense-name {
@@ -213,8 +293,23 @@
       font-size: 14px;
       font-weight: 500;
       word-break: break-word;
-      flex: 1;
-      margin-right: 10px;
+    }
+
+    .expense-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .expense-month-badge {
+      font-size: 10px;
+      color: #64748b;
+      background: #1e293b;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      white-space: nowrap;
     }
 
     .expense-amount {
@@ -224,26 +319,16 @@
       white-space: nowrap;
     }
 
-    .expense-month-badge {
-      font-size: 10px;
-      color: #64748b;
-      background: #1e293b;
-      padding: 3px 8px;
-      border-radius: 6px;
-      margin-left: 8px;
-      white-space: nowrap;
-      font-weight: 600;
-    }
-
     .delete-btn {
       background: none;
       border: none;
-      color: #64748b;
-      font-size: 18px;
+      color: #475569;
+      font-size: 20px;
       cursor: pointer;
       padding: 0 0 0 10px;
       margin: 0;
       width: auto;
+      line-height: 1;
       transition: color 0.2s;
     }
 
@@ -257,16 +342,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 14px;
-      background: #0f172a;
-      border-radius: 10px;
-      border: 1px solid #334155;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, #0f172a, #0b1120);
+      border-radius: 14px;
+      border: 1px solid #1e293b;
       margin-bottom: 20px;
     }
 
     .total-label {
       color: #94a3b8;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -274,13 +359,13 @@
 
     .total-amount {
       color: #22c55e;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
     }
 
     .empty-state {
       text-align: center;
-      padding: 28px 16px;
+      padding: 32px 16px;
       color: #475569;
     }
 
@@ -288,8 +373,14 @@
       font-size: 14px;
     }
 
+    .empty-state .empty-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+      opacity: 0.4;
+    }
+
     .monthly-section {
-      border-top: 1px solid #334155;
+      border-top: 1px solid #1e293b;
       padding-top: 18px;
     }
 
@@ -297,21 +388,23 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 8px 0;
+      padding: 7px 0;
+      animation: slideIn 0.3s ease-out;
     }
 
     .monthly-label {
       color: #94a3b8;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
-      min-width: 70px;
+      min-width: 72px;
       text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
     .monthly-track {
       flex: 1;
-      height: 8px;
-      background: #0f172a;
+      height: 10px;
+      background: #0b1120;
       border-radius: 10px;
       overflow: hidden;
     }
@@ -319,21 +412,21 @@
     .monthly-fill {
       height: 100%;
       border-radius: 10px;
-      transition: width 0.4s;
+      transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .monthly-amount {
       color: #f1f5f9;
       font-size: 13px;
       font-weight: 600;
-      min-width: 80px;
+      min-width: 85px;
       text-align: right;
       white-space: nowrap;
     }
 
     .monthly-empty {
       text-align: center;
-      padding: 20px 16px;
+      padding: 24px 16px;
       color: #475569;
       font-size: 13px;
     }
@@ -342,26 +435,44 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
       justify-content: center;
       align-items: center;
       z-index: 100;
       padding: 16px;
+      animation: fadeIn 0.15s ease-out;
     }
 
     .modal-overlay.active {
       display: flex;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
     .modal-box {
       background: #1e293b;
-      border-radius: 16px;
-      padding: 28px 24px 20px;
+      border-radius: 18px;
+      padding: 32px 28px 24px;
       max-width: 340px;
       width: 100%;
       border: 1px solid #334155;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
       text-align: center;
+      animation: modalPop 0.2s ease-out;
+    }
+
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-box .modal-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
     }
 
     .modal-box p {
@@ -382,17 +493,21 @@
 
     .modal-actions button {
       margin: 0;
-      padding: 10px;
+      padding: 11px;
       font-size: 14px;
-      border-radius: 10px;
+      border-radius: 12px;
+      font-weight: 600;
     }
 
     .btn-cancel {
       background: #334155 !important;
+      color: #cbd5e1 !important;
     }
 
     .btn-cancel:hover {
       background: #475569 !important;
+      transform: none !important;
+      box-shadow: none !important;
     }
 
     .btn-confirm-delete {
@@ -401,30 +516,36 @@
 
     .btn-confirm-delete:hover {
       background: #dc2626 !important;
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35) !important;
+      transform: translateY(-1px) !important;
     }
 
-    .toast {
+    .toast-container {
       position: fixed;
       bottom: 24px;
       left: 50%;
-      transform: translateX(-50%) translateY(80px);
+      transform: translateX(-50%);
+      z-index: 200;
+      pointer-events: none;
+    }
+
+    .toast {
       background: #22c55e;
       color: #052e16;
       font-weight: 600;
       font-size: 14px;
       padding: 12px 24px;
-      border-radius: 10px;
+      border-radius: 12px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
       opacity: 0;
+      transform: translateY(12px);
       transition: opacity 0.3s, transform 0.3s;
-      pointer-events: none;
-      z-index: 200;
       white-space: nowrap;
     }
 
     .toast.show {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
+      transform: translateY(0);
     }
 
     .toast.error {
@@ -432,9 +553,14 @@
       color: #fff;
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 520px) {
       .container {
         padding: 20px 14px;
+        border-radius: 18px;
+      }
+
+      .form-card {
+        padding: 14px;
       }
 
       .form-group {
@@ -442,7 +568,7 @@
       }
 
       h1 {
-        font-size: 22px;
+        font-size: 24px;
       }
 
       .total-amount {
@@ -450,8 +576,8 @@
       }
 
       .monthly-label {
-        min-width: 60px;
-        font-size: 12px;
+        min-width: 58px;
+        font-size: 11px;
       }
 
       .monthly-amount {
@@ -463,38 +589,55 @@
         font-size: 13px;
         padding: 10px 18px;
       }
+
+      .expense-item {
+        padding: 10px 12px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Expense Tracker</h1>
+    <h1>Expense<span>Tracker</span></h1>
     <p class="subtitle">Keep tabs on your spending</p>
 
-    <div class="form-row">
-      <div class="form-group" style="flex: 1.4;">
-        <label for="expenseName">Expense</label>
-        <input type="text" id="expenseName" placeholder="e.g. Groceries" autocomplete="off" autofocus>
-        <div class="suggestion-box" id="suggestionBox"></div>
-      </div>
-      <div class="form-group">
-        <label for="expenseAmount">Amount</label>
-        <div class="input-wrapper">
-          <span class="naira-prefix">&#8358;</span>
-          <input type="number" id="expenseAmount" class="amount-input" placeholder="0.00" min="0" step="0.01">
+    <div class="form-card">
+      <div class="form-row">
+        <div class="form-group" style="flex: 1.4;">
+          <label for="expenseName">Expense</label>
+          <input type="text" id="expenseName" placeholder="e.g. Groceries" autocomplete="off">
+          <div class="suggestion-box" id="suggestionBox"></div>
+        </div>
+        <div class="form-group">
+          <label for="expenseAmount">Amount</label>
+          <div class="input-wrapper">
+            <span class="naira-prefix">&#8358;</span>
+            <input type="number" id="expenseAmount" class="amount-input" placeholder="0.00" min="0" step="0.01">
+          </div>
+        </div>
+        <div class="form-group" style="min-width: 120px; flex: 0.8;">
+          <label for="expenseMonth">Month</label>
+          <input type="month" id="expenseMonth">
         </div>
       </div>
-      <div class="form-group" style="min-width: 120px; flex: 0.8;">
-        <label for="expenseMonth">Month</label>
-        <input type="month" id="expenseMonth">
-      </div>
+
+      <button class="add-btn" id="addBtn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Add Expense
+      </button>
     </div>
 
-    <button id="addBtn">+ Add Expense</button>
-
-    <div class="section-label">Expenses</div>
+    <div class="list-header">
+      <span class="section-label">Expenses</span>
+      <span class="expense-count" id="expenseCount">0 items</span>
+    </div>
     <ul class="expense-list" id="expenseList">
-      <li class="empty-state"><p>No expenses yet. Add one above!</p></li>
+      <li class="empty-state">
+        <div class="empty-icon">&#128176;</div>
+        <p>No expenses yet. Add one above!</p>
+      </li>
     </ul>
 
     <div class="total-row">
@@ -503,13 +646,16 @@
     </div>
 
     <div class="monthly-section">
-      <div class="section-label">Monthly Analysis</div>
+      <div class="list-header">
+        <span class="section-label">Monthly Analysis</span>
+      </div>
       <div id="monthlyAnalysis"></div>
     </div>
   </div>
 
   <div class="modal-overlay" id="confirmModal">
     <div class="modal-box">
+      <div class="modal-icon">&#9888;&#65039;</div>
       <p>Delete <strong id="deleteTargetName"></strong>?</p>
       <div class="modal-actions">
         <button class="btn-cancel" id="cancelDelete">Cancel</button>
@@ -518,7 +664,9 @@
     </div>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <div class="toast-container">
+    <div class="toast" id="toast"></div>
+  </div>
 
   <script>
     const expenseName = document.getElementById('expenseName');
@@ -526,6 +674,7 @@
     const expenseMonth = document.getElementById('expenseMonth');
     const addBtn = document.getElementById('addBtn');
     const expenseList = document.getElementById('expenseList');
+    const expenseCount = document.getElementById('expenseCount');
     const totalDisplay = document.getElementById('totalDisplay');
     const monthlyAnalysis = document.getElementById('monthlyAnalysis');
     const suggestionBox = document.getElementById('suggestionBox');
@@ -537,6 +686,8 @@
 
     const expenses = [];
     let pendingDeleteIndex = null;
+    let hasInteracted = false;
+    let toastTimer = null;
 
     const COMMON_EXPENSES = [
       'Food & Groceries',
@@ -579,10 +730,13 @@
     }
 
     function formatDisplayMonth(ym) {
+      if (!ym || !ym.includes('-')) return '';
       const [y, m] = ym.split('-');
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      return `${months[parseInt(m, 10) - 1]} ${y}`;
+      const mi = parseInt(m, 10) - 1;
+      if (mi < 0 || mi > 11) return ym;
+      return `${months[mi]} ${y}`;
     }
 
     function formatNaira(amount) {
@@ -597,6 +751,11 @@
       totalDisplay.textContent = formatNaira(total);
     }
 
+    function updateCount() {
+      const len = expenses.length;
+      expenseCount.textContent = len + ' item' + (len !== 1 ? 's' : '');
+    }
+
     function escapeHtml(text) {
       const div = document.createElement('div');
       div.textContent = text;
@@ -605,20 +764,26 @@
 
     function renderExpenses() {
       if (expenses.length === 0) {
-        expenseList.innerHTML = '<li class="empty-state"><p>No expenses yet. Add one above!</p></li>';
+        expenseList.innerHTML = '<li class="empty-state"><div class="empty-icon">&#128176;</div><p>No expenses yet. Add one above!</p></li>';
         return;
       }
 
-      expenseList.innerHTML = expenses.map((expense, index) => `
-        <li class="expense-item">
-          <span class="expense-name">
-            ${escapeHtml(expense.name)}
-            <span class="expense-month-badge">${formatDisplayMonth(expense.month)}</span>
-          </span>
-          <span class="expense-amount">${formatNaira(expense.amount)}</span>
-          <button class="delete-btn" data-index="${index}" title="Delete">&times;</button>
-        </li>
-      `).join('');
+      expenseList.innerHTML = expenses.map((expense, index) => {
+        const monthLabel = formatDisplayMonth(expense.month);
+        return `
+          <li class="expense-item">
+            <div class="expense-info">
+              <span class="expense-dot" style="background: ${getMonthColor(index % MONTH_COLORS.length)}"></span>
+              <span class="expense-name">${escapeHtml(expense.name)}</span>
+            </div>
+            <div class="expense-meta">
+              ${monthLabel ? `<span class="expense-month-badge">${escapeHtml(monthLabel)}</span>` : ''}
+              <span class="expense-amount">${formatNaira(expense.amount)}</span>
+              <button class="delete-btn" data-index="${index}" title="Delete expense">&times;</button>
+            </div>
+          </li>
+        `;
+      }).join('');
     }
 
     function renderMonthlyAnalysis() {
@@ -652,21 +817,22 @@
     }
 
     function showToast(message, isError) {
+      if (toastTimer) {
+        clearTimeout(toastTimer);
+        toastTimer = null;
+      }
       toast.textContent = message;
       toast.className = 'toast' + (isError ? ' error' : '');
-      requestAnimationFrame(() => {
-        toast.classList.add('show');
-      });
-      clearTimeout(toast._hideTimer);
-      toast._hideTimer = setTimeout(() => {
+      toast.classList.add('show');
+      toastTimer = setTimeout(() => {
         toast.classList.remove('show');
+        toastTimer = null;
       }, 2500);
     }
 
     function addExpense() {
       const name = expenseName.value.trim();
       const amount = parseFloat(expenseAmount.value);
-      let month = expenseMonth.value || getCurrentMonth();
 
       if (!name) {
         expenseName.focus();
@@ -680,28 +846,34 @@
         return;
       }
 
+      const month = expenseMonth.value || getCurrentMonth();
+
       expenses.push({ name, amount, month });
+
       expenseName.value = '';
       expenseAmount.value = '';
-      expenseMonth.value = getCurrentMonth();
       closeSuggestions();
 
       renderExpenses();
       updateTotal();
+      updateCount();
       renderMonthlyAnalysis();
       expenseName.focus();
       showToast('Expense added!');
     }
 
     function deleteExpense(index) {
+      if (index < 0 || index >= expenses.length) return;
       expenses.splice(index, 1);
       renderExpenses();
       updateTotal();
+      updateCount();
       renderMonthlyAnalysis();
       showToast('Expense deleted');
     }
 
     function openConfirmModal(index) {
+      if (index < 0 || index >= expenses.length) return;
       pendingDeleteIndex = index;
       deleteTargetName.textContent = expenses[index].name;
       modal.classList.add('active');
@@ -724,27 +896,31 @@
     }
 
     expenseName.addEventListener('click', () => {
+      if (!hasInteracted) hasInteracted = true;
       renderSuggestions();
     });
 
     expenseName.addEventListener('focus', () => {
+      if (!hasInteracted) {
+        hasInteracted = true;
+        return;
+      }
       renderSuggestions();
     });
 
     expenseName.addEventListener('blur', () => {
-      setTimeout(closeSuggestions, 160);
+      setTimeout(closeSuggestions, 180);
     });
 
     expenseName.addEventListener('input', () => {
       if (expenseName.value.trim()) {
         closeSuggestions();
-      } else {
-        renderSuggestions();
       }
     });
 
     expenseName.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
+        e.preventDefault();
         expenseAmount.focus();
       }
     });
@@ -759,7 +935,10 @@
     });
 
     expenseAmount.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') addExpense();
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addExpense();
+      }
     });
 
     addBtn.addEventListener('click', addExpense);
@@ -767,14 +946,15 @@
     expenseList.addEventListener('click', (e) => {
       const btn = e.target.closest('.delete-btn');
       if (btn) {
-        const index = parseInt(btn.dataset.index);
-        openConfirmModal(index);
+        const index = parseInt(btn.dataset.index, 10);
+        if (!isNaN(index)) openConfirmModal(index);
       }
     });
 
     confirmDelete.addEventListener('click', () => {
       if (pendingDeleteIndex !== null) {
         deleteExpense(pendingDeleteIndex);
+        pendingDeleteIndex = null;
         closeConfirmModal();
       }
     });
@@ -793,6 +973,7 @@
 
     expenseMonth.value = getCurrentMonth();
     updateTotal();
+    updateCount();
     renderMonthlyAnalysis();
   </script>
 </body>
