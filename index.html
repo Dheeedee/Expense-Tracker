@@ -114,9 +114,24 @@
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
 
-    input[type="month"] {
+    input[type="date"] {
       text-transform: uppercase;
       color-scheme: dark;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.7);
+      cursor: pointer;
+    }
+
+    input[type="date"]::-webkit-datetime-edit-text {
+      color: #64748b;
+    }
+
+    input[type="date"]::-webkit-datetime-edit-month-field,
+    input[type="date"]::-webkit-datetime-edit-day-field,
+    input[type="date"]::-webkit-datetime-edit-year-field {
+      color: #f1f5f9;
     }
 
     .amount-input {
@@ -615,9 +630,9 @@
             <input type="number" id="expenseAmount" class="amount-input" placeholder="0.00" min="0" step="0.01">
           </div>
         </div>
-        <div class="form-group" style="min-width: 120px; flex: 0.8;">
-          <label for="expenseMonth">Month</label>
-          <input type="month" id="expenseMonth">
+        <div class="form-group" style="min-width: 140px; flex: 0.9;">
+          <label for="expenseDate">Date</label>
+          <input type="date" id="expenseDate">
         </div>
       </div>
 
@@ -671,7 +686,7 @@
   <script>
     const expenseName = document.getElementById('expenseName');
     const expenseAmount = document.getElementById('expenseAmount');
-    const expenseMonth = document.getElementById('expenseMonth');
+    const expenseDate = document.getElementById('expenseDate');
     const addBtn = document.getElementById('addBtn');
     const expenseList = document.getElementById('expenseList');
     const expenseCount = document.getElementById('expenseCount');
@@ -722,14 +737,32 @@
       return MONTH_COLORS[index % MONTH_COLORS.length];
     }
 
-    function getCurrentMonth() {
+    function getCurrentDate() {
       const d = new Date();
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, '0');
-      return `${y}-${m}`;
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
     }
 
-    function formatDisplayMonth(ym) {
+    function extractMonthKey(dateStr) {
+      if (!dateStr || !dateStr.includes('-')) return '';
+      return dateStr.slice(0, 7);
+    }
+
+    function formatDisplayDate(dateStr) {
+      if (!dateStr || !dateStr.includes('-')) return '';
+      const parts = dateStr.split('-');
+      if (parts.length !== 3) return dateStr;
+      const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+      if (isNaN(d.getTime())) return dateStr;
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+    }
+
+    function formatShortMonth(ym) {
       if (!ym || !ym.includes('-')) return '';
       const [y, m] = ym.split('-');
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -769,7 +802,7 @@
       }
 
       expenseList.innerHTML = expenses.map((expense, index) => {
-        const monthLabel = formatDisplayMonth(expense.month);
+        const dateLabel = formatDisplayDate(expense.date);
         return `
           <li class="expense-item">
             <div class="expense-info">
@@ -777,7 +810,7 @@
               <span class="expense-name">${escapeHtml(expense.name)}</span>
             </div>
             <div class="expense-meta">
-              ${monthLabel ? `<span class="expense-month-badge">${escapeHtml(monthLabel)}</span>` : ''}
+              ${dateLabel ? `<span class="expense-month-badge">${escapeHtml(dateLabel)}</span>` : ''}
               <span class="expense-amount">${formatNaira(expense.amount)}</span>
               <button class="delete-btn" data-index="${index}" title="Delete expense">&times;</button>
             </div>
@@ -794,7 +827,8 @@
 
       const monthTotals = {};
       expenses.forEach(e => {
-        monthTotals[e.month] = (monthTotals[e.month] || 0) + e.amount;
+        const mk = extractMonthKey(e.date);
+        if (mk) monthTotals[mk] = (monthTotals[mk] || 0) + e.amount;
       });
 
       const sortedMonths = Object.keys(monthTotals).sort();
@@ -806,7 +840,7 @@
         const color = getMonthColor(i);
         return `
           <div class="monthly-bar-wrap">
-            <span class="monthly-label">${formatDisplayMonth(ym)}</span>
+            <span class="monthly-label">${formatShortMonth(ym)}</span>
             <div class="monthly-track">
               <div class="monthly-fill" style="width: ${pct}%; background: ${color};"></div>
             </div>
@@ -846,9 +880,9 @@
         return;
       }
 
-      const month = expenseMonth.value || getCurrentMonth();
+      const date = expenseDate.value || getCurrentDate();
 
-      expenses.push({ name, amount, month });
+      expenses.push({ name, amount, date });
 
       expenseName.value = '';
       expenseAmount.value = '';
@@ -971,7 +1005,7 @@
       }
     });
 
-    expenseMonth.value = getCurrentMonth();
+    expenseDate.value = getCurrentDate();
     updateTotal();
     updateCount();
     renderMonthlyAnalysis();
